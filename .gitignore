@@ -1,0 +1,59 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### React ###
+# dependencies
+aviomanager-frontend/node_modules
+aviomanager-frontend/.pnp
+aviomanager-frontend/.pnp.js
+
+# testing
+aviomanager-frontend/coverage
+
+# production
+aviomanager-frontend/build
+
+# misc
+aviomanager-frontend/.DS_Store
+aviomanager-frontend/.env.local
+aviomanager-frontend/.env.development.local
+aviomanager-frontend/.env.test.local
+aviomanager-frontend/.env.production.local
+
+aviomanager-frontend/npm-debug.log*
+aviomanager-frontend/yarn-debug.log*
+aviomanager-frontend/yarn-error.log*
+
+
+project-material/Tasks.txt
