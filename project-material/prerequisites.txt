@@ -17,7 +17,7 @@ Plane - ентитет за авион
 
 3. Атрибути
 Person
-SSN (LONG - DomainObjectId -> PersonId)
+id (LONG - DomainObjectId -> PersonId)
 name (VARCHAR - String)
 surname (VARCHAR - String)
 country_id (LONG - DomainObjectId -> CountryId) - FK*
@@ -36,7 +36,7 @@ name (VARCHAR - String)
 FlightParticipant
 id (LONG - DomainObjectId -> FlightParticipantId)
 role (VARCHAR - ParticipantRole)
-person_ssn (LONG - DomainObjectId -> PersonId) - FK*
+person_id (LONG - DomainObjectId -> PersonId) - FK*
 flight_id (LONG - DomainObjectId -> FlightId) - FK*
 
 Flight
