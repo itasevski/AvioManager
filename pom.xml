@@ -8,7 +8,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-        <module>flight-participants</module>
+        <module>role-management</module>
         <module>countries</module>
         <module>flight-management</module>
         <module>planes</module>

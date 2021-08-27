@@ -1,0 +1,6 @@
+1. Changed Person entity primary key to be id, not SSN.
+2. Removed Flight ID value object from the Flight-Management bounded context. There is no need to store such a
+value object since that bounded context contains all the flights.
+3. Added FlightDate value object in the Flight-Management bounded context. 
+It is used for flights' departure and arrival dates.
+4. Renamed flight state to flight status.

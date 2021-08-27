@@ -1,7 +1,8 @@
 package mk.ukim.finki.countries.domain.model;
 
 import lombok.Getter;
-import mk.ukim.finki.countries.domain.model.enumerations.CountryName;
+import lombok.NonNull;
+import mk.ukim.finki.countries.domain.model.enumeration.CountryName;
 import mk.ukim.finki.sharedkernel.domain.base.AbstractEntity;
 
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ public class Country extends AbstractEntity<CountryId> {
 
     protected Country() {}
 
-    public Country(CountryName countryName) {
+    public Country(@NonNull CountryName countryName) {
         super(CountryId.generateRandomId(CountryId.class));
         this.countryName = countryName;
     }

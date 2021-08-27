@@ -1,0 +1,7 @@
+Spring Boot (backend):
+	24.08 - Initial project setup. Spring Boot and React apps initialization. X
+	25.08 - Reading prerequisites. Research. Modules (bounded contexts) creation. Base entities (domain model), initial value objects and domain services.
+	26.08 - Domain services and application services.
+
+React (frontend):
+	
