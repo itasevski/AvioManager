@@ -15,12 +15,12 @@ import javax.persistence.MappedSuperclass;
  */
 @Getter
 @MappedSuperclass
-public class Person extends AbstractEntity<PersonId> {
+public abstract class Person extends AbstractEntity<PersonId> {
 
     private String name;
     private String surname;
 
-    @AttributeOverride(name = "id", column = @Column(name = "country_id"))
+    @AttributeOverride(name = "id", column = @Column(name = "country_id", nullable = false))
     private CountryId countryId;
 
     protected Person() {}

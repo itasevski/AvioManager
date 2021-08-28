@@ -72,6 +72,17 @@ public class Flight extends AbstractEntity<FlightId> {
         this.numPassengers = totalNumPassengers();
     }
 
+    public Flight(@NonNull FlightDates flightDates, @NonNull CountryId departureCountry, @NonNull CountryId destinationCountry, @NonNull PlaneId planeId) {
+        super(FlightId.generateRandomId(FlightId.class));
+        this.flightDates = flightDates;
+        this.flightStatus = FlightStatus.SCHEDULED;
+        this.departureCountry = departureCountry;
+        this.destinationCountry = destinationCountry;
+        this.planeId = planeId;
+
+        this.numPassengers = totalNumPassengers();
+    }
+
     public NumberOfUnits totalNumPassengers() {
         return NumberOfUnits.valueOf(this.flightParticipants.size());
     }
