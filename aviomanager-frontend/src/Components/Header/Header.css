@@ -1,0 +1,13 @@
+.headerTitleLink {
+    text-decoration: none;
+    color: black;
+}
+
+.headerLink {
+    text-decoration: none;
+    color: gray;
+}
+
+.headerLink:hover {
+    color: black;
+}
