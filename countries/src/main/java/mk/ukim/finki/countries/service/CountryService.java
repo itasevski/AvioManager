@@ -5,6 +5,7 @@ import mk.ukim.finki.countries.domain.model.CountryId;
 import mk.ukim.finki.countries.service.form.CountryForm;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CountryService {
 
@@ -12,6 +13,8 @@ public interface CountryService {
 
     List<Country> findAll();
 
-    Country findById(CountryId countryId);
+    Optional<Country> findById(CountryId countryId);
+
+    void deleteById(CountryId countryId);
 
 }

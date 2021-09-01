@@ -4,6 +4,7 @@ import mk.ukim.finki.rolemanagement.domain.model.*;
 import mk.ukim.finki.rolemanagement.service.form.PersonForm;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PersonService {
 
@@ -11,6 +12,8 @@ public interface PersonService {
 
     List<Person> findAll();
 
-    Person findById(PersonId personId);
+    Optional<Person> findById(PersonId personId);
+
+    void deleteById(PersonId personId);
 
 }

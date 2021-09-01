@@ -5,6 +5,7 @@ import mk.ukim.finki.planes.domain.model.PlaneId;
 import mk.ukim.finki.planes.service.form.PlaneForm;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlaneService {
 
@@ -12,6 +13,8 @@ public interface PlaneService {
 
     List<Plane> findAll();
 
-    Plane findById(PlaneId planeId);
+    Optional<Plane> findById(PlaneId planeId);
+
+    void deleteById(PlaneId planeId);
 
 }

@@ -1,21 +1,25 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Box, Button, FormLabel, Grid, TextField} from "@material-ui/core";
 import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {Autocomplete} from "@material-ui/lab";
 import {Link} from "react-router-dom";
 
-const CreateFlightForm = () => {
+const CreateFlightForm = (props) => {
     const [state, setState] = React.useState({
         departureDate: new Date(),
         arrivalDate: new Date(),
-        testData: [
-            { data: "data1" },
-            { data: "data2" },
-            { data: "data3" },
-            { data: "data4" }
-        ]
+        countries: [],
+        planes: []
     });
+
+    useEffect(() => {
+        setState({
+            ...state,
+            countries: props.countries,
+            planes: props.planes
+        });
+    }, [props.countries]);
 
     const handleDepartureDateChange = (date) => {
         setState({
@@ -112,10 +116,10 @@ const CreateFlightForm = () => {
                     <Grid item xs={12}>
                         <FormLabel htmlFor="departureCountry">Departure country</FormLabel>
                         <Autocomplete
-                            options={state.testData}
+                            options={state.countries}
                             freeSolo
                             id="departureCountry"
-                            getOptionLabel={(option) => option.data}
+                            getOptionLabel={(option) => option.countryName}
                             renderInput={(params) => <TextField {...params}
                                                                 label="Input departure country..."
                                                                 name="departureCountry"
@@ -126,10 +130,10 @@ const CreateFlightForm = () => {
                     <Grid item xs={12}>
                         <FormLabel htmlFor="destination">Destination</FormLabel>
                         <Autocomplete
-                            options={state.testData}
+                            options={state.countries}
                             freeSolo
                             id="destination"
-                            getOptionLabel={(option) => option.data}
+                            getOptionLabel={(option) => option.countryName}
                             renderInput={(params) => <TextField {...params}
                                                                 label="Input destination..."
                                                                 name="destination"
@@ -140,10 +144,10 @@ const CreateFlightForm = () => {
                     <Grid item xs={12}>
                         <FormLabel htmlFor="planeName">Plane model name</FormLabel>
                         <Autocomplete
-                            options={state.testData}
+                            options={state.planes}
                             freeSolo
                             id="planeName"
-                            getOptionLabel={(option) => option.data}
+                            getOptionLabel={(option) => option.planeName}
                             renderInput={(params) => <TextField {...params}
                                                                 label="Input plane model name..."
                                                                 name="planeName"

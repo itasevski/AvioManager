@@ -2,7 +2,7 @@ package mk.ukim.finki.countries.service.form;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
-import mk.ukim.finki.countries.domain.model.enumeration.CountryName;
+import mk.ukim.finki.sharedkernel.domain.country.CountryName;
 
 @Data
 public class CountryForm {

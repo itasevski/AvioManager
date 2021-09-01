@@ -14,6 +14,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -42,9 +43,14 @@ public class CountryServiceImplementation implements CountryService {
     }
 
     @Override
-    public Country findById(CountryId countryId) {
-        return this.countryRepository.findById(countryId)
-                .orElseThrow(() -> new CountryNotFoundException("Country with id " + countryId + " does not exist."));
+    public Optional<Country> findById(CountryId countryId) {
+        return this.countryRepository.findById(countryId);
+    }
+
+    @Override
+    public void deleteById(CountryId countryId) {
+        if(!this.countryRepository.existsById(countryId)) throw new CountryNotFoundException("Country with id " + countryId + " does not exist.");
+        this.countryRepository.deleteById(countryId);
     }
 
     private Country toDomainObject(CountryForm countryForm) {

@@ -4,16 +4,15 @@ import lombok.AllArgsConstructor;
 import mk.ukim.finki.rolemanagement.domain.model.Person;
 import mk.ukim.finki.rolemanagement.domain.model.PersonId;
 import mk.ukim.finki.rolemanagement.service.PersonService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/person")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PersonRestController {
 
     private final PersonService personService;
@@ -24,8 +23,16 @@ public class PersonRestController {
     }
 
     @GetMapping("/find-id/{id}")
-    public Person findById(@PathVariable PersonId id) {
-        return this.personService.findById(id);
+    public ResponseEntity<Person> findById(@PathVariable PersonId id) {
+        return this.personService.findById(id)
+                .map(person -> ResponseEntity.ok().body(person))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @GetMapping("/delete-id/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable PersonId id) {
+        this.personService.deleteById(id);
+        return ResponseEntity.ok("Person successfully deleted.");
     }
 
 }

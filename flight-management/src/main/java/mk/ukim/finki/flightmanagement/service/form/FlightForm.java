@@ -18,10 +18,10 @@ public class FlightForm {
     private FlightDates flightDates;
 
     @NotNull
-    private CountryId departureCountry;
+    private CountryId departureCountryId;
 
     @NotNull
-    private CountryId destinationCountry;
+    private CountryId destinationCountryId;
 
     @NotNull
     private PlaneId planeId;

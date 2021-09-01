@@ -2,6 +2,7 @@ package mk.ukim.finki.rolemanagement.domain.model;
 
 import lombok.Getter;
 import lombok.NonNull;
+import mk.ukim.finki.rolemanagement.domain.valueobject.Country;
 import mk.ukim.finki.rolemanagement.domain.valueobject.CountryId;
 
 import javax.persistence.Entity;
@@ -14,8 +15,8 @@ public class Passenger extends Person {
 
     protected Passenger() {}
 
-    public Passenger(String name, String surname, @NonNull CountryId countryId) {
-        super(name, surname, countryId);
+    public Passenger(String name, String surname, @NonNull CountryId countryId, @NonNull Country country) {
+        super(name, surname, countryId, country);
     }
 
 }

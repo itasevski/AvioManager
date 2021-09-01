@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import mk.ukim.finki.flightmanagement.domain.model.enumeration.FlightParticipantRole;
 import mk.ukim.finki.flightmanagement.domain.model.enumeration.FlightStatus;
-import mk.ukim.finki.flightmanagement.domain.valueobject.CountryId;
-import mk.ukim.finki.flightmanagement.domain.valueobject.FlightDates;
-import mk.ukim.finki.flightmanagement.domain.valueobject.Person;
-import mk.ukim.finki.flightmanagement.domain.valueobject.PlaneId;
+import mk.ukim.finki.flightmanagement.domain.valueobject.*;
 import mk.ukim.finki.sharedkernel.domain.base.AbstractEntity;
 import mk.ukim.finki.sharedkernel.domain.measurement.NumberOfUnits;
 
@@ -27,20 +24,23 @@ public class Flight extends AbstractEntity<FlightId> {
     })
     private FlightDates flightDates;
 
-    @AttributeOverride(name = "value", column = @Column(name = "num_passengers"))
-    private NumberOfUnits numPassengers;
+    @AttributeOverride(name = "value", column = @Column(name = "num_participants"))
+    private NumberOfUnits numParticipants;
 
     @Enumerated(value = EnumType.STRING)
     private FlightStatus flightStatus;
 
     @AttributeOverride(name = "id", column = @Column(name = "departure_country_id", nullable = false))
-    private CountryId departureCountry;
+    private CountryId departureCountryId;
+    private Country departureCountry;
 
     @AttributeOverride(name = "id", column = @Column(name = "destination_country_id", nullable = false))
-    private CountryId destinationCountry;
+    private CountryId destinationCountryId;
+    private Country destinationCountry;
 
     @AttributeOverride(name = "id", column = @Column(name = "plane_id", nullable = false))
     private PlaneId planeId;
+    private Plane plane;
 
     /**
      * Contains a set of flight participants, and each flight participant contains the ID of the actual Person.
@@ -59,31 +59,38 @@ public class Flight extends AbstractEntity<FlightId> {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<FlightParticipant> flightParticipants = new HashSet<>();
 
+
     protected Flight() {}
 
-    public Flight(@NonNull FlightDates flightDates, @NonNull FlightStatus flightStatus, @NonNull CountryId departureCountry, @NonNull CountryId destinationCountry, @NonNull PlaneId planeId) {
+    public Flight(@NonNull FlightDates flightDates, @NonNull FlightStatus flightStatus, @NonNull CountryId departureCountryId, @NonNull Country departureCountry, @NonNull CountryId destinationCountryId, @NonNull Country destinationCountry, @NonNull PlaneId planeId, @NonNull Plane plane) {
         super(FlightId.generateRandomId(FlightId.class));
         this.flightDates = flightDates;
         this.flightStatus = flightStatus;
-        this.departureCountry = departureCountry;
-        this.destinationCountry = destinationCountry;
+        this.departureCountryId = departureCountryId;
+        this.destinationCountryId = destinationCountryId;
         this.planeId = planeId;
 
-        this.numPassengers = totalNumPassengers();
+        this.numParticipants = totalNumParticipants();
+        setDepartureCountry(departureCountry);
+        setDestinationCountry(destinationCountry);
+        setPlane(plane);
     }
 
-    public Flight(@NonNull FlightDates flightDates, @NonNull CountryId departureCountry, @NonNull CountryId destinationCountry, @NonNull PlaneId planeId) {
+    public Flight(@NonNull FlightDates flightDates, @NonNull CountryId departureCountryId, @NonNull Country departureCountry, @NonNull CountryId destinationCountryId, @NonNull Country destinationCountry, @NonNull PlaneId planeId, @NonNull Plane plane) {
         super(FlightId.generateRandomId(FlightId.class));
         this.flightDates = flightDates;
         this.flightStatus = FlightStatus.SCHEDULED;
-        this.departureCountry = departureCountry;
-        this.destinationCountry = destinationCountry;
+        this.departureCountryId = departureCountryId;
+        this.destinationCountryId = destinationCountryId;
         this.planeId = planeId;
 
-        this.numPassengers = totalNumPassengers();
+        this.numParticipants = totalNumParticipants();
+        setDepartureCountry(departureCountry);
+        setDestinationCountry(destinationCountry);
+        setPlane(plane);
     }
 
-    public NumberOfUnits totalNumPassengers() {
+    public NumberOfUnits totalNumParticipants() {
         return NumberOfUnits.valueOf(this.flightParticipants.size());
     }
 
@@ -101,6 +108,7 @@ public class Flight extends AbstractEntity<FlightId> {
         }
 
         this.flightParticipants.add(flightParticipant);
+        this.numParticipants = totalNumParticipants();
 
         return flightParticipant;
     }
@@ -108,6 +116,23 @@ public class Flight extends AbstractEntity<FlightId> {
     public void removeFlightParticipant(@NonNull FlightParticipantId flightParticipantId) {
         Objects.requireNonNull(flightParticipantId, "Flight participant ID must not be null.");
         this.flightParticipants.removeIf(flightParticipant -> flightParticipant.getId().equals(flightParticipantId));
+        this.numParticipants = totalNumParticipants();
+    }
+
+    public void setFlightStatus(@NonNull FlightStatus flightStatus) {
+        this.flightStatus = flightStatus;
+    }
+
+    private void setDepartureCountry(@NonNull Country departureCountry) {
+        this.departureCountry = departureCountry;
+    }
+
+    private void setDestinationCountry(@NonNull Country destinationCountry) {
+        this.destinationCountry = destinationCountry;
+    }
+
+    private void setPlane(@NonNull Plane plane) {
+        this.plane = plane;
     }
 
 }

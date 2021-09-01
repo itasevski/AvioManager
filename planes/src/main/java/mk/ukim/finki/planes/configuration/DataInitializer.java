@@ -2,7 +2,7 @@ package mk.ukim.finki.planes.configuration;
 
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.planes.domain.model.Plane;
-import mk.ukim.finki.planes.domain.model.enumeration.PlaneName;
+import mk.ukim.finki.sharedkernel.domain.plane.PlaneName;
 import mk.ukim.finki.planes.domain.repository.PlaneRepository;
 import org.springframework.stereotype.Component;
 

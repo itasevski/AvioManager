@@ -2,7 +2,7 @@ package mk.ukim.finki.countries.domain.model;
 
 import lombok.Getter;
 import lombok.NonNull;
-import mk.ukim.finki.countries.domain.model.enumeration.CountryName;
+import mk.ukim.finki.sharedkernel.domain.country.CountryName;
 import mk.ukim.finki.sharedkernel.domain.base.AbstractEntity;
 
 import javax.persistence.Entity;

@@ -15,13 +15,13 @@ const Header = () => {
                         <Link className="headerLink" to="/flights">Flights</Link>
                     </Typography>
                     <Typography variant="h5" style={{ paddingRight: "25px" }}>
-                        <Link className="headerLink" to="/countries">Countries</Link>
+                        <Link className="headerLink" to="/people">People</Link>
                     </Typography>
                     <Typography variant="h5" style={{ paddingRight: "25px" }}>
                         <Link className="headerLink" to="/planes">Planes</Link>
                     </Typography>
                     <Typography variant="h5">
-                        <Link className="headerLink" to="/people">People</Link>
+                        <Link className="headerLink" to="/countries">Countries</Link>
                     </Typography>
                 </Toolbar>
             </AppBar>

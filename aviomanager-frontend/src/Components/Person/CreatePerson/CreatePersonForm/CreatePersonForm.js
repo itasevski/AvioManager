@@ -1,17 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Box, Button, FormLabel, Grid, TextField} from "@material-ui/core";
 import {Autocomplete} from "@material-ui/lab";
 import {Link} from "react-router-dom";
 
-const CreatePersonForm = () => {
+const CreatePersonForm = (props) => {
     const [state, setState] = React.useState({
-        testData: [
-            { data: "data1" },
-            { data: "data2" },
-            { data: "data3" },
-            { data: "data4" }
-        ]
+        countries: []
     });
+
+    useEffect(() => {
+        setState({
+            ...state,
+            countries: props.countries
+        });
+    }, [props.countries]);
 
     return (
         <React.Fragment>
@@ -38,10 +40,10 @@ const CreatePersonForm = () => {
                     <Grid item xs={12}>
                         <FormLabel htmlFor="nationality">Nationality</FormLabel>
                         <Autocomplete
-                            options={state.testData}
+                            options={state.countries}
                             freeSolo
                             id="nationality"
-                            getOptionLabel={(option) => option.data}
+                            getOptionLabel={(option) => option.countryName}
                             renderInput={(params) => <TextField {...params}
                                                                 label="Input person nationality..."
                                                                 name="nationality"

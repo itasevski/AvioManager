@@ -1,4 +1,4 @@
-package mk.ukim.finki.countries.domain.model.enumeration;
+package mk.ukim.finki.sharedkernel.domain.country;
 
 public enum CountryName {
     Afghanistan, Albania, Algeria, American_Samoa, Andorra, Angola, Anguilla, Antarctica, Antigua_and_Barbuda, Argentina, Armenia,

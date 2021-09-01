@@ -1,4 +1,4 @@
-package mk.ukim.finki.planes.domain.model.enumeration;
+package mk.ukim.finki.sharedkernel.domain.plane;
 
 public enum PlaneName {
     Airbus_A220, Airbus_A320_family, Airbus_A330, Airbus_A350_XWB, Antonov_An_148_An_158, Boeing_737, Boeing_747, Boeing_767, Boeing_777,

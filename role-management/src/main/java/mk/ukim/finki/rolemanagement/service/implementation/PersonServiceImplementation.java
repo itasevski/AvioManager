@@ -6,9 +6,11 @@ import mk.ukim.finki.rolemanagement.domain.model.exception.PersonNotFoundExcepti
 import mk.ukim.finki.rolemanagement.domain.repository.FlightAttendantRepository;
 import mk.ukim.finki.rolemanagement.domain.repository.PassengerRepository;
 import mk.ukim.finki.rolemanagement.domain.repository.PilotRepository;
+import mk.ukim.finki.rolemanagement.domain.valueobject.Country;
 import mk.ukim.finki.rolemanagement.domain.valueobject.CountryId;
 import mk.ukim.finki.rolemanagement.service.PersonService;
 import mk.ukim.finki.rolemanagement.service.form.PersonForm;
+import mk.ukim.finki.rolemanagement.xhttp.client.CountryClient;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -28,6 +30,7 @@ public class PersonServiceImplementation implements PersonService {
     private final PassengerRepository passengerRepository;
     private final PilotRepository pilotRepository;
     private final Validator validator;
+    private final CountryClient countryClient;
 
     @Override
     public PersonId createPerson(PersonForm personForm) {
@@ -61,24 +64,49 @@ public class PersonServiceImplementation implements PersonService {
     }
 
     @Override
-    public Person findById(PersonId personId) {
-        Optional<? extends Person> person = this.flightAttendantRepository.existsById(personId) ? this.flightAttendantRepository.findById(personId) :
-                (this.passengerRepository.existsById(personId) ? this.passengerRepository.findById(personId) :
-                        this.pilotRepository.findById(personId));
+    public Optional<Person> findById(PersonId personId) {
+        Person person;
 
-        if(!person.isPresent()) throw new PersonNotFoundException("Person with id " + personId + " not found");
+        if(this.flightAttendantRepository.existsById(personId)) {
+            person = this.flightAttendantRepository.findById(personId).get();
+        }
+        else if(this.passengerRepository.existsById(personId)) {
+            person = this.passengerRepository.findById(personId).get();
+        }
+        else {
+            person = this.pilotRepository.findById(personId).get();
+        }
 
-        return person.get();
+        return Optional.of(person);
+    }
+
+    @Override
+    public void deleteById(PersonId personId) {
+        Optional<Person> person = findById(personId);
+
+        if(person.isEmpty()) throw new PersonNotFoundException("Person with id " + personId + " does not exist.");
+
+        if(person.get() instanceof FlightAttendant) {
+            this.flightAttendantRepository.delete((FlightAttendant) person.get());
+        }
+        else if(person.get() instanceof Passenger) {
+            this.passengerRepository.delete((Passenger) person.get());
+        }
+        else {
+            this.pilotRepository.delete((Pilot) person.get());
+        }
     }
 
     private Person toDomainObject(PersonForm personForm) {
+        Country country = this.countryClient.findById(personForm.getCountryId());
+
         if(personForm.getNumFlights() != null) {
-            return new FlightAttendant(personForm.getName(), personForm.getSurname(), personForm.getCountryId(), personForm.getNumFlights());
+            return new FlightAttendant(personForm.getName(), personForm.getSurname(), personForm.getCountryId(), country, personForm.getNumFlights());
         }
         else if(personForm.getYearsExperience() != null) {
-            return new Pilot(personForm.getName(), personForm.getSurname(), personForm.getCountryId(), personForm.getYearsExperience());
+            return new Pilot(personForm.getName(), personForm.getSurname(), personForm.getCountryId(), country, personForm.getYearsExperience());
         }
-        return new Passenger(personForm.getName(), personForm.getSurname(), personForm.getCountryId());
+        return new Passenger(personForm.getName(), personForm.getSurname(), personForm.getCountryId(), country);
     }
 
 }

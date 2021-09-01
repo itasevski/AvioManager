@@ -4,7 +4,7 @@ import StyledTableCell from "../../Utilities/StyledTableCell/StyledTableCell";
 import PersonItem from "./PersonItem/PersonItem";
 import {Link} from "react-router-dom";
 
-const Person = () => {
+const Person = (props) => {
     return (
         <div>
             <Grid container justifyContent="center" style={{ marginTop: "50px" }}>
@@ -21,15 +21,20 @@ const Person = () => {
                                         <StyledTableCell>Nationality</StyledTableCell>
                                         <StyledTableCell>No. of flights attended</StyledTableCell>
                                         <StyledTableCell>Years experience</StyledTableCell>
+                                        <StyledTableCell></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <PersonItem />
+                                    {props.people.map((person) => {
+                                        return (
+                                            <PersonItem person={person} deletePerson={props.deletePerson} />
+                                        );
+                                    })}
                                 </TableBody>
                             </Table>
                         </TableContainer>
                     </Grid>
-                    <Grid container justifyContent="flex-end" style={{ marginTop: "30px" }}>
+                    <Grid container justifyContent="flex-end" style={{ marginTop: "30px", marginBottom: "60px" }}>
                         <Link to="/createPerson" style={{ textDecoration: "none" }}>
                             <Button variant="outlined" type="button">Create person</Button>
                         </Link>

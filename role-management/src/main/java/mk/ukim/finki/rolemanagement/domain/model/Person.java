@@ -2,6 +2,7 @@ package mk.ukim.finki.rolemanagement.domain.model;
 
 import lombok.Getter;
 import lombok.NonNull;
+import mk.ukim.finki.rolemanagement.domain.valueobject.Country;
 import mk.ukim.finki.rolemanagement.domain.valueobject.CountryId;
 import mk.ukim.finki.sharedkernel.domain.base.AbstractEntity;
 
@@ -22,14 +23,21 @@ public abstract class Person extends AbstractEntity<PersonId> {
 
     @AttributeOverride(name = "id", column = @Column(name = "country_id", nullable = false))
     private CountryId countryId;
+    private Country country;
 
     protected Person() {}
 
-    public Person(String name, String surname, @NonNull CountryId countryId) {
+    public Person(String name, String surname, @NonNull CountryId countryId, @NonNull Country country) {
         super(PersonId.generateRandomId(PersonId.class));
         this.name = name;
         this.surname = surname;
         this.countryId = countryId;
+
+        setCountry(country);
+    }
+
+    private void setCountry(@NonNull Country country) {
+        this.country = country;
     }
 
 }

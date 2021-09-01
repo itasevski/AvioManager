@@ -2,7 +2,7 @@ package mk.ukim.finki.countries.configuration;
 
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.countries.domain.model.Country;
-import mk.ukim.finki.countries.domain.model.enumeration.CountryName;
+import mk.ukim.finki.sharedkernel.domain.country.CountryName;
 import mk.ukim.finki.countries.domain.repository.CountryRepository;
 import org.springframework.stereotype.Component;
 

@@ -2,7 +2,7 @@ package mk.ukim.finki.planes.domain.model;
 
 import lombok.Getter;
 import lombok.NonNull;
-import mk.ukim.finki.planes.domain.model.enumeration.PlaneName;
+import mk.ukim.finki.sharedkernel.domain.plane.PlaneName;
 import mk.ukim.finki.sharedkernel.domain.base.AbstractEntity;
 
 import javax.persistence.Entity;

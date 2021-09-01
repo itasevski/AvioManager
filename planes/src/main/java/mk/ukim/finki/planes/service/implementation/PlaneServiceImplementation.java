@@ -14,6 +14,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -42,9 +43,14 @@ public class PlaneServiceImplementation implements PlaneService {
     }
 
     @Override
-    public Plane findById(PlaneId planeId) {
-        return this.planeRepository.findById(planeId)
-                .orElseThrow(() -> new PlaneNotFoundException("Plane with id " + planeId + " not found."));
+    public Optional<Plane> findById(PlaneId planeId) {
+        return this.planeRepository.findById(planeId);
+    }
+
+    @Override
+    public void deleteById(PlaneId planeId) {
+        if(!this.planeRepository.existsById(planeId)) throw new PlaneNotFoundException("Plane with id " + planeId + " does not exist.");
+        this.planeRepository.deleteById(planeId);
     }
 
     private Plane toDomainObject(PlaneForm planeForm) {

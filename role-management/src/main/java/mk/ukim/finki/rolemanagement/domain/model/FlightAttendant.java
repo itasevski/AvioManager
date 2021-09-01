@@ -2,6 +2,7 @@ package mk.ukim.finki.rolemanagement.domain.model;
 
 import lombok.Getter;
 import lombok.NonNull;
+import mk.ukim.finki.rolemanagement.domain.valueobject.Country;
 import mk.ukim.finki.rolemanagement.domain.valueobject.CountryId;
 import mk.ukim.finki.sharedkernel.domain.measurement.NumberOfUnits;
 
@@ -17,8 +18,8 @@ public class FlightAttendant extends Person {
 
     protected FlightAttendant() {}
 
-    public FlightAttendant(String name, String surname, @NonNull CountryId countryId, @NonNull NumberOfUnits numFlights) {
-        super(name, surname, countryId);
+    public FlightAttendant(String name, String surname, @NonNull CountryId countryId, @NonNull Country country, @NonNull NumberOfUnits numFlights) {
+        super(name, surname, countryId, country);
         this.numFlights = numFlights;
     }
 

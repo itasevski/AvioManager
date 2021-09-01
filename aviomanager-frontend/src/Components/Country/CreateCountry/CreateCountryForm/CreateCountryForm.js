@@ -1,7 +1,5 @@
 import React from "react";
 import {Box, Button, FormLabel, Grid, TextField} from "@material-ui/core";
-import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
 import {Autocomplete} from "@material-ui/lab";
 import {Link} from "react-router-dom";
 
