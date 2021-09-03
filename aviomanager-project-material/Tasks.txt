@@ -1,2 +1,0 @@
-Entity creation functionality. (with page for adding flight participants to the flights)
-Events using Apache Kafka. (see in prerequisites for more info)
