@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import mk.ukim.finki.rolemanagement.domain.model.Person;
 import mk.ukim.finki.rolemanagement.domain.model.PersonId;
 import mk.ukim.finki.rolemanagement.service.PersonService;
+import mk.ukim.finki.rolemanagement.service.form.PersonForm;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * PersonRestController class - an Open Host Service (OHS) that contains the REST API endpoints for the "role-management" bounded context.
+ */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/person")
@@ -20,6 +24,12 @@ public class PersonRestController {
     @GetMapping
     public List<Person> findAll() {
         return this.personService.findAll();
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<String> create(@RequestBody PersonForm personForm) {
+        this.personService.createPerson(personForm);
+        return ResponseEntity.ok("Person successfully created.");
     }
 
     @GetMapping("/find-id/{id}")

@@ -6,7 +6,7 @@ import mk.ukim.finki.sharedkernel.domain.base.EntityId;
 import javax.persistence.Embeddable;
 
 /**
- * CountryId class - value object used for the person's nationality.
+ * CountryId class - value object used for the flight's departure or destination country.
  */
 @Embeddable
 public class CountryId extends EntityId {

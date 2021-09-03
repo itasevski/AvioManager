@@ -8,7 +8,7 @@ const Flight = (props) => {
     return (
         <div>
             <Grid container justifyContent="center" style={{ marginTop: "50px" }}>
-                <Grid item xs={10}>
+                <Grid item xs={11}>
                     <Grid container>
                         <Typography variant="h4" style={{ marginBottom: "20px" }}>Flights</Typography>
                         <TableContainer>
@@ -24,12 +24,17 @@ const Flight = (props) => {
                                         <StyledTableCell>No. of participants</StyledTableCell>
                                         <StyledTableCell>Status</StyledTableCell>
                                         <StyledTableCell></StyledTableCell>
+                                        <StyledTableCell></StyledTableCell>
+                                        <StyledTableCell></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {props.flights.map((flight) => {
                                         return (
-                                            <FlightItem flight={flight} deleteFlight={props.deleteFlight} updateFlight={props.updateFlight} />
+                                            <FlightItem flight={flight}
+                                                        deleteFlight={props.deleteFlight}
+                                                        updateFlight={props.updateFlight}
+                                                        fetchFlightParticipants={props.fetchFlightParticipants} />
                                         );
                                     })}
                                 </TableBody>

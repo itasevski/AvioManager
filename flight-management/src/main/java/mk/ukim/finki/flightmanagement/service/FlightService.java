@@ -10,6 +10,7 @@ import mk.ukim.finki.flightmanagement.service.form.FlightParticipantForm;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface FlightService {
 
@@ -22,6 +23,8 @@ public interface FlightService {
     Optional<Flight> updateById(FlightId flightId, FlightStatus flightStatus);
 
     void deleteById(FlightId flightId);
+
+    Set<FlightParticipant> getFlightParticipantsByFlightId(FlightId flightId);
 
     void addFlightParticipant(FlightId flightId, FlightParticipantForm flightParticipantForm);
 

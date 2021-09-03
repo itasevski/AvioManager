@@ -9,11 +9,13 @@ import mk.ukim.finki.flightmanagement.domain.model.enumeration.FlightStatus;
 import mk.ukim.finki.flightmanagement.domain.model.exception.FlightNotFoundException;
 import mk.ukim.finki.flightmanagement.domain.repository.FlightRepository;
 import mk.ukim.finki.flightmanagement.domain.valueobject.Country;
+import mk.ukim.finki.flightmanagement.domain.valueobject.Person;
 import mk.ukim.finki.flightmanagement.domain.valueobject.Plane;
 import mk.ukim.finki.flightmanagement.service.FlightService;
 import mk.ukim.finki.flightmanagement.service.form.FlightForm;
 import mk.ukim.finki.flightmanagement.service.form.FlightParticipantForm;
 import mk.ukim.finki.flightmanagement.xhttp.client.CountryClient;
+import mk.ukim.finki.flightmanagement.xhttp.client.PersonClient;
 import mk.ukim.finki.flightmanagement.xhttp.client.PlaneClient;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,12 @@ import javax.validation.Validator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
+/**
+ * FlightServiceImplementation class - contains all implemented application services for the "flight-management" bounded context. All of the operations/services/methods
+ * will be executed in a single transaction, hence the @Transactional annotation. This will ensure atomicity.
+ */
 @Service
 @Transactional
 @AllArgsConstructor
@@ -32,6 +39,7 @@ public class FlightServiceImplementation implements FlightService {
     private final FlightRepository flightRepository;
     private final Validator validator;
     private final CountryClient countryClient;
+    private final PersonClient personClient;
     private final PlaneClient planeClient;
 
     @Override
@@ -75,12 +83,22 @@ public class FlightServiceImplementation implements FlightService {
     }
 
     @Override
-    public void addFlightParticipant(FlightId flightId, FlightParticipantForm flightParticipantForm) {
+    public Set<FlightParticipant> getFlightParticipantsByFlightId(FlightId flightId) {
         Optional<Flight> flight = findById(flightId);
 
         if(flight.isEmpty()) throw new FlightNotFoundException("Flight with id " + flightId + " does not exist.");
 
-        flight.get().addFlightParticipant(flightParticipantForm.getPerson());
+        return flight.get().getFlightParticipants();
+    }
+
+    @Override
+    public void addFlightParticipant(FlightId flightId, FlightParticipantForm flightParticipantForm) {
+        Person person = this.personClient.findById(flightParticipantForm.getPersonId());
+        Optional<Flight> flight = findById(flightId);
+
+        if(flight.isEmpty()) throw new FlightNotFoundException("Flight with id " + flightId + " does not exist.");
+
+        flight.get().addFlightParticipant(person);
 
         this.flightRepository.saveAndFlush(flight.get());
     }
@@ -102,7 +120,7 @@ public class FlightServiceImplementation implements FlightService {
         Plane plane = this.planeClient.findById(flightForm.getPlaneId());
 
         Flight flight = new Flight(flightForm.getFlightDates(), flightForm.getDepartureCountryId(), departureCountry, flightForm.getDestinationCountryId(), destinationCountry, flightForm.getPlaneId(), plane);
-        flightForm.getItems().forEach(item -> flight.addFlightParticipant(item.getPerson()));
+        flightForm.getFlightParticipants().forEach(flightParticipant -> flight.addFlightParticipant(this.personClient.findById(flightParticipant.getPersonId())));
 
         return flight;
     }

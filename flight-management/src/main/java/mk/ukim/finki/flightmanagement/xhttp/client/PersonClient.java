@@ -1,6 +1,7 @@
 package mk.ukim.finki.flightmanagement.xhttp.client;
 
 import mk.ukim.finki.flightmanagement.domain.valueobject.Person;
+import mk.ukim.finki.flightmanagement.domain.valueobject.PersonId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -9,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collections;
-import java.util.List;
-
+/**
+ * PersonClient class - an HTTP client class used to send requests to the "role-management" bounded context Open Host Service.
+ */
 @Service
 public class PersonClient {
 
@@ -28,15 +29,15 @@ public class PersonClient {
         return UriComponentsBuilder.fromUriString(this.serverUrl);
     }
 
-    public List<Person> findAll() {
+    public Person findById(PersonId personId) {
         try {
-            return this.restTemplate.exchange(uri().path("").build().toUri(),
+            return this.restTemplate.exchange(uri().path("/api/person/find-id/" + personId.getId()).build().toUri(),
                     HttpMethod.GET, null,
-                    new ParameterizedTypeReference<List<Person>>() {
+                    new ParameterizedTypeReference<Person>() {
                     }).getBody();
         }
         catch (Exception exception) {
-            return Collections.emptyList();
+            return null;
         }
     }
 

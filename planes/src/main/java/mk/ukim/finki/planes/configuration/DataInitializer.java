@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * DataInitializer class - a class that inserts all the planes from the PlaneName enum into the database. (optional, but recommended)
+ */
 @Component
 @AllArgsConstructor
 public class DataInitializer {

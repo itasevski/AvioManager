@@ -1,11 +1,12 @@
 1. Changed Person entity primary key to be id, not SSN.
-2. Removed Flight ID value object from the Flight-Management bounded context. There is no need to store such a
-value object since that bounded context contains all the flights.
-3. Added FlightDate value object in the Flight-Management bounded context. 
-It is used for flights' departure and arrival dates.
+2. Removed Flight ID value object from the Flight-Management bounded context. There is no need to store such a value object since that bounded context contains all the flights.
+3. Added FlightDate value object in the Flight-Management bounded context.  It is used for flights' departure and arrival dates.
 4. Renamed flight state to flight status.
 5. Added more flight statuses.
 6. Removed materialized view prerequisite. There is no need to create a materialized view. All needed data is visible in the tables (frontend side).
 7. Added country and plane value objects in Flight (flight-management) BC, and country value object in Person (role-management) BC. They are needed in order to store data about the actual country or plane in the flight/person entities, not just the id.
 8. Added a new event task for handling the deletion of entities. If one entity gets deleted, an event will be published (correlated to the deleted entity) and all other
 information related to that entity will also be deleted.
+9. Removed the event task for flight deletion after arrival. After all, all flights need to be visible and available in the table. Since there is a flight status enumeration, there is no need to delete those flights.
+All flights should be visible, whether they are in the SCHEDULED state, IN_AIR or ARRIVED state.
+9.1. Since there won't be flight removal after arrival, there won't be a need for a logging system using events. To wit, the event task for logging information is removed as well.

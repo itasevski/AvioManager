@@ -1,0 +1,7 @@
+alter table flight_participants
+    add constraint FK_FLIGHT foreign key (flight_id) references flight (id)
+        ON DELETE CASCADE ON UPDATE CASCADE;
+
+alter table flight_participants
+    add constraint FK_FLIGHT_PARTICIPANT foreign key (flight_participant_id) references flight_participant (id)
+        ON DELETE CASCADE ON UPDATE CASCADE;

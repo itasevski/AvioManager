@@ -6,11 +6,13 @@ import mk.ukim.finki.flightmanagement.domain.valueobject.FlightDates;
 import mk.ukim.finki.flightmanagement.domain.valueobject.PlaneId;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * FlightForm class - class used to cast request bodies into FlightForm instances, later used to create actual Flight entities.
+ */
 @Data
 public class FlightForm {
 
@@ -27,7 +29,6 @@ public class FlightForm {
     private PlaneId planeId;
 
     @Valid
-    @NotEmpty
-    private List<FlightParticipantForm> items = new ArrayList<>();
+    private List<FlightParticipantForm> flightParticipants = new ArrayList<>();
 
 }

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * DataInitializer class - a class that inserts all the countries from the CountryName enum into the database. (optional, but recommended)
+ */
 @Component
 @AllArgsConstructor
 public class DataInitializer {

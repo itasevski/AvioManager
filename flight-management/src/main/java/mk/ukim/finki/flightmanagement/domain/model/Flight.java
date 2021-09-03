@@ -90,47 +90,73 @@ public class Flight extends AbstractEntity<FlightId> {
         setPlane(plane);
     }
 
-    public NumberOfUnits totalNumParticipants() {
-        return NumberOfUnits.valueOf(this.flightParticipants.size());
-    }
-
-    public FlightParticipant addFlightParticipant(@NonNull Person person) {
+    /**
+     * Domain service used to add a flight participant to the flight.
+     * @param person - the value object injected into the newly created flight participant, containing data of the actual person from the "role-management" bounded context.
+     */
+    public void addFlightParticipant(@NonNull Person person) {
         Objects.requireNonNull(person, "Flight participant object must not be null.");
         FlightParticipant flightParticipant;
         if(person.getNumFlights() != null) {
-            flightParticipant = new FlightParticipant(FlightParticipantRole.FLIGHT_ATTENDANT, person.getPersonId());
+            flightParticipant = new FlightParticipant(FlightParticipantRole.FLIGHT_ATTENDANT, person.getPersonId(), person);
         }
         else if(person.getYearsExperience() != null) {
-            flightParticipant = new FlightParticipant(FlightParticipantRole.PILOT, person.getPersonId());
+            flightParticipant = new FlightParticipant(FlightParticipantRole.PILOT, person.getPersonId(), person);
         }
         else {
-            flightParticipant = new FlightParticipant(FlightParticipantRole.PASSENGER, person.getPersonId());
+            flightParticipant = new FlightParticipant(FlightParticipantRole.PASSENGER, person.getPersonId(), person);
         }
 
         this.flightParticipants.add(flightParticipant);
-        this.numParticipants = totalNumParticipants();
-
-        return flightParticipant;
+        this.numParticipants = this.numParticipants.add(1);
     }
 
+    /**
+     * Domain service used to remove a flight participant from the flight.
+     * @param flightParticipantId - the ID of the flight participant to be removed from the flight.
+     */
     public void removeFlightParticipant(@NonNull FlightParticipantId flightParticipantId) {
         Objects.requireNonNull(flightParticipantId, "Flight participant ID must not be null.");
         this.flightParticipants.removeIf(flightParticipant -> flightParticipant.getId().equals(flightParticipantId));
-        this.numParticipants = totalNumParticipants();
+        this.numParticipants = this.numParticipants.subtract(1);
     }
 
+    /**
+     * Domain service used to set the flight's status.
+     * @param flightStatus - the new flight status.
+     */
     public void setFlightStatus(@NonNull FlightStatus flightStatus) {
         this.flightStatus = flightStatus;
     }
 
+    /**
+     * Domain service used to return the total number of participants in the flight.
+     * @return the total number of participants in the flight.
+     */
+    private NumberOfUnits totalNumParticipants() {
+        return NumberOfUnits.valueOf(this.flightParticipants.size());
+    }
+
+    /**
+     * Domain service used to set the flight's departure country.
+     * @param departureCountry - the departure country.
+     */
     private void setDepartureCountry(@NonNull Country departureCountry) {
         this.departureCountry = departureCountry;
     }
 
+    /**
+     * Domain service used to set the flight's destination country.
+     * @param destinationCountry - the destination country.
+     */
     private void setDestinationCountry(@NonNull Country destinationCountry) {
         this.destinationCountry = destinationCountry;
     }
 
+    /**
+     * Domain service used to set the plane used in the flight.
+     * @param plane - the plane.
+     */
     private void setPlane(@NonNull Plane plane) {
         this.plane = plane;
     }

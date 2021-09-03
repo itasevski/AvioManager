@@ -7,8 +7,7 @@ import mk.ukim.finki.sharedkernel.domain.base.ValueObject;
 import mk.ukim.finki.sharedkernel.domain.measurement.NumberOfUnits;
 
 /**
- * Person class - an immutable value object used as a DTO used for FlightParticipant entities, correlated to the Person class
- * in the role-management bounded context.
+ * Person class - an immutable value object for FlightParticipant entities, correlated to the Person class in the role-management bounded context.
  */
 @Getter
 public class Person implements ValueObject {

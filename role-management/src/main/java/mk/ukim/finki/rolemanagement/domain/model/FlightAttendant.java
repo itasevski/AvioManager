@@ -23,4 +23,11 @@ public class FlightAttendant extends Person {
         this.numFlights = numFlights;
     }
 
+    /**
+     * Domain service used to increment the flight attendant's number of flights attended.
+     */
+    public void incrementNumFlights() {
+        this.numFlights = this.numFlights.add(1);
+    }
+
 }

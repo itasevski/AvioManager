@@ -11,6 +11,8 @@ import CreatePerson from "../Person/CreatePerson/CreatePerson";
 import CreateCountry from "../Country/CreateCountry/CreateCountry";
 import CreatePlane from "../Plane/CreatePlane/CreatePlane";
 import AviomanagerService from "../../Services/AviomanagerService";
+import FlightParticipants from "../Flight/FlightParticipants/FlightParticipants";
+import AddFlightParticipant from "../Flight/AddFlightParticipant/AddFlightParticipant";
 
 class App extends Component {
 
@@ -18,6 +20,7 @@ class App extends Component {
         super(props);
         this.state = {
             flights: [],
+            flightParticipants: [],
             people: [],
             planes: [],
             countries: []
@@ -32,21 +35,30 @@ class App extends Component {
 
                     <Route path={"/flights"} exact render={() => <Flight flights={this.state.flights}
                                                                          deleteFlight={this.deleteFlight}
-                                                                         updateFlight={this.updateFlight} /> } />
-                    <Route path={"/createFlight"} exact render={() => <CreateFlight countries={this.state.countries}
+                                                                         updateFlight={this.updateFlight}
+                                                                         fetchFlightParticipants={this.fetchFlightParticipantsByFlightId} /> } />
+                    <Route path={"/flights/:id/flightParticipants"} exact render={() => <FlightParticipants flightParticipants={this.state.flightParticipants}
+                                                                                                            deleteFlightParticipant={this.deleteFlightParticipant} /> } />
+                    <Route path={"/flights/:id/flightParticipants/add"} exact render={() => <AddFlightParticipant people={this.state.people}
+                                                                                                                  addFlightParticipant={this.addFlightParticipant} />} />
+                    <Route path={"/createFlight"} exact render={() => <CreateFlight createFlight={this.createFlight}
+                                                                                    countries={this.state.countries}
                                                                                     planes={this.state.planes} /> } />
 
                     <Route path={"/countries"} exact render={() => <Country countries={this.state.countries}
                                                                             deleteCountry={this.deleteCountry} /> } />
-                    <Route path={"/createCountry"} exact render={() => <CreateCountry /> } />
+                    <Route path={"/createCountry"} exact render={() => <CreateCountry countries={this.state.countries}
+                                                                                      createCountry={this.createCountry} /> } />
 
                     <Route path={"/planes"} exact render={() => <Plane planes={this.state.planes}
                                                                        deletePlane={this.deletePlane} /> } />
-                    <Route path={"/createPlane"} exact render={() => <CreatePlane /> } />
+                    <Route path={"/createPlane"} exact render={() => <CreatePlane planes={this.state.planes}
+                                                                                  createPlane={this.createPlane} /> } />
 
                     <Route path={"/people"} exact render={() => <Person people={this.state.people}
                                                                         deletePerson={this.deletePerson} /> } />
-                    <Route path={"/createPerson"} exact render={() => <CreatePerson countries={this.state.countries} /> } />
+                    <Route path={"/createPerson"} exact render={() => <CreatePerson createPerson={this.createPerson}
+                                                                                    countries={this.state.countries} /> } />
 
                     <Route path={"/"} exact render={() => <Redirect to="/flights"  /> } />
                 </Router>
@@ -128,6 +140,58 @@ class App extends Component {
     updateFlight = (id, flightStatus) => {
         AviomanagerService.updateFlight(id, flightStatus)
             .then((data) => {
+                this.fetchFlights();
+            });
+    }
+
+    createFlight = (departureDate, arrivalDate, departureCountryId, destinationCountryId, planeId) => {
+        AviomanagerService.createFlight(departureDate, arrivalDate, departureCountryId, destinationCountryId, planeId)
+            .then((data) => {
+                this.fetchFlights();
+            });
+    }
+
+    createPerson = (name, surname, countryId, numFlights, yearsExperience) => {
+        AviomanagerService.createPerson(name, surname, countryId, numFlights, yearsExperience)
+            .then((data) => {
+                this.fetchPeople();
+            });
+    }
+
+    createPlane = (planeName) => {
+        AviomanagerService.createPlane(planeName)
+            .then((data) => {
+                this.fetchPlanes();
+            });
+    }
+
+    createCountry = (countryName) => {
+        AviomanagerService.createCountry(countryName)
+            .then((data) => {
+                this.fetchCountries();
+            });
+    }
+
+    fetchFlightParticipantsByFlightId = (id) => {
+        AviomanagerService.fetchFlightParticipantsByFlightId(id)
+            .then((data) => {
+                this.setState({
+                    flightParticipants: data.data
+                });
+            });
+    }
+
+    addFlightParticipant = (flightId, personId) => {
+        AviomanagerService.addFlightParticipant(flightId, personId)
+            .then((data) => {
+                this.fetchFlights();
+            });
+    }
+
+    deleteFlightParticipant = (flightId, flightParticipantId) => {
+        AviomanagerService.deleteFlightParticipant(flightId, flightParticipantId)
+            .then((data) => {
+                this.fetchFlightParticipantsByFlightId(flightId);
                 this.fetchFlights();
             });
     }

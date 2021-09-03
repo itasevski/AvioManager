@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * PlaneClient class - an HTTP client class used to send requests to the "planes" bounded context Open Host Service.
+ */
 @Service
 public class PlaneClient {
 
@@ -28,7 +31,7 @@ public class PlaneClient {
 
     public Plane findById(PlaneId planeId) {
         try {
-            return this.restTemplate.exchange(uri().path("/api/plane/" + planeId.getId()).build().toUri(),
+            return this.restTemplate.exchange(uri().path("/api/plane/find-id/" + planeId.getId()).build().toUri(),
                     HttpMethod.GET, null,
                     new ParameterizedTypeReference<Plane>() {
                     }).getBody();

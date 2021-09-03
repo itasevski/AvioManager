@@ -4,7 +4,7 @@ import lombok.NonNull;
 import mk.ukim.finki.sharedkernel.domain.base.EntityId;
 
 /**
- * CountryId class - Identifier class used for country entities.
+ * CountryId class - Identifier class used for Country entities.
  */
 public class CountryId extends EntityId {
 

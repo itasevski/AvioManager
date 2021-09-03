@@ -5,6 +5,9 @@ import mk.ukim.finki.sharedkernel.domain.base.EntityId;
 
 import javax.persistence.Embeddable;
 
+/**
+ * PlaneId class - Identifier class used for Plane entities.
+ */
 @Embeddable
 public class PlaneId extends EntityId {
 

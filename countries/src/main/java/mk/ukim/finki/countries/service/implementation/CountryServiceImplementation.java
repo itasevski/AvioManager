@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * CountryServiceImplementation class - contains all implemented application services for the "countries" bounded context. All of the operations/services/methods
+ * will be executed in a single transaction, hence the @Transactional annotation. This will ensure atomicity.
+ */
 @Service
 @Transactional
 @AllArgsConstructor

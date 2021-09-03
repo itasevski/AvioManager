@@ -3,7 +3,7 @@ import {CssBaseline, Paper, Typography} from "@material-ui/core";
 import FormStyles from "../../../Utilities/FormStyles/FormStyles";
 import CreatePersonForm from "./CreatePersonForm/CreatePersonForm";
 
-const CreateFlight = (props) => {
+const CreatePerson = (props) => {
     const classes = FormStyles();
 
     return (
@@ -16,7 +16,8 @@ const CreateFlight = (props) => {
                     </Typography>
                     <React.Fragment>
                         <React.Fragment>
-                            <CreatePersonForm countries={props.countries} />
+                            <CreatePersonForm countries={props.countries}
+                                              createPerson={props.createPerson} />
                         </React.Fragment>
                     </React.Fragment>
                 </Paper>
@@ -25,4 +26,4 @@ const CreateFlight = (props) => {
     );
 }
 
-export default CreateFlight;
+export default CreatePerson;

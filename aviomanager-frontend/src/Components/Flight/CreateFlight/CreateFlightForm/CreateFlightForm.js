@@ -3,12 +3,19 @@ import {Box, Button, FormLabel, Grid, TextField} from "@material-ui/core";
 import {KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {Autocomplete} from "@material-ui/lab";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import {format} from "date-fns";
 
 const CreateFlightForm = (props) => {
+    const history = useHistory();
+
     const [state, setState] = React.useState({
         departureDate: new Date(),
         arrivalDate: new Date(),
+        departureCountryId: "",
+        destinationCountryId: "",
+        planeId: "",
+
         countries: [],
         planes: []
     });
@@ -35,9 +42,32 @@ const CreateFlightForm = (props) => {
         });
     };
 
+    const handleFieldChange = (event) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.value
+        });
+    }
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+        const departureCountryName = document.getElementById("departureCountry").value;
+        const destinationCountryName = document.getElementById("destinationCountry").value;
+        const planeName = document.getElementById("planeName").value;
+
+        const departureDate = format(state.departureDate, "dd/MM/yyyy HH:mm");
+        const arrivalDate = format(state.arrivalDate, "dd/MM/yyyy HH:mm");
+        const departureCountryId = state.countries.find(country => country.countryName === departureCountryName).id.id;
+        const destinationCountryId = state.countries.find(country => country.countryName === destinationCountryName).id.id;
+        const planeId = state.planes.find(plane => plane.planeName === planeName).id.id;
+
+        props.createFlight(departureDate, arrivalDate, departureCountryId, destinationCountryId, planeId);
+        history.push("/flights");
+    }
+
     return (
         <React.Fragment>
-            <form>
+            <form onSubmit={handleFormSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={7}>
                         <FormLabel htmlFor="date">Departure date</FormLabel>
@@ -132,11 +162,11 @@ const CreateFlightForm = (props) => {
                         <Autocomplete
                             options={state.countries}
                             freeSolo
-                            id="destination"
+                            id="destinationCountry"
                             getOptionLabel={(option) => option.countryName}
                             renderInput={(params) => <TextField {...params}
-                                                                label="Input destination..."
-                                                                name="destination"
+                                                                label="Input destination country..."
+                                                                name="destinationCountry"
                                                                 required
                                                                 />}
                         />
@@ -152,7 +182,7 @@ const CreateFlightForm = (props) => {
                                                                 label="Input plane model name..."
                                                                 name="planeName"
                                                                 required
-                            />}
+                                                                />}
                         />
                     </Grid>
                     <Grid item xs={12}>

@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 
+/**
+ * DataInitializer class - a class that inserts all the flights, along with the flight participants, into the database. (optional)
+ */
 @Component
 @AllArgsConstructor
 public class DataInitializer {

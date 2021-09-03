@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * CountryClient class - an HTTP client class used to send requests to the "countries" bounded context Open Host Service.
+ */
 @Service
 public class CountryClient {
 
@@ -28,7 +31,7 @@ public class CountryClient {
 
     public Country findById(CountryId countryId) {
         try {
-            return this.restTemplate.exchange(uri().path("/api/country/" + countryId.getId()).build().toUri(),
+            return this.restTemplate.exchange(uri().path("/api/country/find-id/" + countryId.getId()).build().toUri(),
                     HttpMethod.GET, null,
                     new ParameterizedTypeReference<Country>() {
                     }).getBody();

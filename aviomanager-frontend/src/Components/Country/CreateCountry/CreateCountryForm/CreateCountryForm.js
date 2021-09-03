@@ -1,35 +1,53 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Box, Button, FormLabel, Grid, TextField} from "@material-ui/core";
 import {Autocomplete} from "@material-ui/lab";
 import {Link} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const CreateCountryForm = () => {
+const CreateCountryForm = (props) => {
+    const history = useHistory();
+
     const [state, setState] = React.useState({
-        testData: [
-            { data: "data1" },
-            { data: "data2" },
-            { data: "data3" },
-            { data: "data4" }
-        ]
+        countries: []
     });
+
+    useEffect(() => {
+       setState({
+           ...state,
+           countries: props.countries
+       });
+    }, [props.countries]);
+
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+
+        const countryName = document.getElementById("countryName").value;
+
+        props.createCountry(countryName);
+        history.push("/countries");
+    }
 
     return (
         <React.Fragment>
-            <form>
+            <form onSubmit={handleFormSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <FormLabel htmlFor="countryName">Country name</FormLabel>
                         <Autocomplete
-                            options={state.testData}
+                            options={state.countries}
                             freeSolo
                             id="countryName"
-                            getOptionLabel={(option) => option.data}
+                            getOptionLabel={(option) => option.countryName}
                             renderInput={(params) => <TextField {...params}
                                                                 label="Input country name..."
                                                                 name="countryName"
                                                                 required
                             />}
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <span style={{ color: "red" }}>First add the input string to the list of CountryName enum values in the Shared Kernel, then create the Country.</span>
                     </Grid>
                     <Grid item xs={12}>
                         <Box mt={2}>

@@ -23,4 +23,11 @@ public class Pilot extends Person {
         this.yearsExperience = yearsExperience;
     }
 
+    /**
+     * Domain service used to increment the pilot's years of experience.
+     */
+    public void incrementYearsExperience() {
+        this.yearsExperience = this.yearsExperience.add(1);
+    }
+
 }

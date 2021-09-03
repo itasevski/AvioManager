@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
+/**
+ * DataInitializer class - a class that inserts all the people related to flights into the database. (optional)
+ */
 @Component
 @AllArgsConstructor
 public class DataInitializer {

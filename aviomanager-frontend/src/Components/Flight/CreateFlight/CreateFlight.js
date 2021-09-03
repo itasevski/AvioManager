@@ -16,7 +16,9 @@ const CreateFlight = (props) => {
                     </Typography>
                     <React.Fragment>
                         <React.Fragment>
-                            <CreateFlightForm countries={props.countries} planes={props.planes} />
+                            <CreateFlightForm countries={props.countries}
+                                              planes={props.planes}
+                                              createFlight={props.createFlight} />
                         </React.Fragment>
                     </React.Fragment>
                 </Paper>

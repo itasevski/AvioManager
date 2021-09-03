@@ -6,6 +6,9 @@ import mk.ukim.finki.sharedkernel.domain.measurement.NumberOfUnits;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * PersonForm class - class used to cast request bodies into PersonForm instances, later used to create actual Person entities.
+ */
 @Data
 public class PersonForm {
 

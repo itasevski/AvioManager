@@ -1,10 +1,18 @@
 import React, {useEffect} from "react";
 import {Box, Button, FormLabel, Grid, TextField} from "@material-ui/core";
 import {Autocomplete} from "@material-ui/lab";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 const CreatePersonForm = (props) => {
+    const history = useHistory();
+
     const [state, setState] = React.useState({
+        name: "",
+        surname: "",
+        countryId: "",
+        numFlights: "",
+        yearsExperience: "",
+
         countries: []
     });
 
@@ -15,9 +23,31 @@ const CreatePersonForm = (props) => {
         });
     }, [props.countries]);
 
+
+    const handleFieldChange = (event) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.value
+        });
+    }
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+        const countryName = document.getElementById("nationality").value;
+
+        const name = state.name;
+        const surname = state.surname;
+        const countryId = state.countries.find(country => country.countryName === countryName).id.id;
+        const numFlights = state.numFlights !== "" ? state.numFlights : null;
+        const yearsExperience = state.yearsExperience !== "" ? state.yearsExperience : null;
+
+        props.createPerson(name, surname, countryId, numFlights, yearsExperience);
+        history.push("/people");
+    }
+
     return (
         <React.Fragment>
-            <form>
+            <form onSubmit={handleFormSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <FormLabel htmlFor="departureCountry">Name</FormLabel>
@@ -26,6 +56,7 @@ const CreatePersonForm = (props) => {
                                    name="name"
                                    fullWidth
                                    required
+                                   onChange={handleFieldChange}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -35,6 +66,7 @@ const CreatePersonForm = (props) => {
                                    name="surname"
                                    fullWidth
                                    required
+                                   onChange={handleFieldChange}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -58,8 +90,9 @@ const CreatePersonForm = (props) => {
                             id="numFlights"
                             name="numFlights"
                             type="number"
-                            required
                             fullWidth
+                            onChange={handleFieldChange}
+                            disabled={state.yearsExperience !== ""}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -69,8 +102,9 @@ const CreatePersonForm = (props) => {
                             id="yearsExperience"
                             name="yearsExperience"
                             type="number"
-                            required
                             fullWidth
+                            onChange={handleFieldChange}
+                            disabled={state.numFlights !== ""}
                         />
                     </Grid>
                     <Grid item xs={12}>
