@@ -1,5 +1,8 @@
 package mk.ukim.finki.sharedkernel.domain.country;
 
+/**
+ * CountryName enum - a list of countries that are persisted in the database at runtime.
+ */
 public enum CountryName {
     Afghanistan, Albania, Algeria, American_Samoa, Andorra, Angola, Anguilla, Antarctica, Antigua_and_Barbuda, Argentina, Armenia,
     Aruba, Australia, Austria, Azerbaijan, Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belgium, Belize, Benin, Bermuda, Bhutan,
@@ -24,5 +27,5 @@ public enum CountryName {
     Turkmenistan, Turks_and_Caicos_Islands, Tuvalu, Uganda, Ukraine, United_Arab_Emirates, United_Kingdom,
     United_States_of_America, US_Minor_Outlying_Islands, Uruguay, Uzbekistan, Vanuatu, Vatican_City_State,
     Venezuela, Vietnam, Virgin_Islands_British, Virgin_Islands_US, Wallis_and_Futuna_Islands, Western_Sahara, Yemen,
-    Zaire, Zambia, Zimbabwe
+    Zaire, Zambia, Zimbabwe, NOT_SPECIFIED
 }

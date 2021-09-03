@@ -11,15 +11,15 @@ import mk.ukim.finki.rolemanagement.domain.valueobject.CountryId;
 import mk.ukim.finki.rolemanagement.service.PersonService;
 import mk.ukim.finki.rolemanagement.service.form.PersonForm;
 import mk.ukim.finki.rolemanagement.xhttp.client.CountryClient;
+import mk.ukim.finki.sharedkernel.domain.country.CountryName;
+import mk.ukim.finki.sharedkernel.domain.event.person.PersonDeletedEvent;
+import mk.ukim.finki.sharedkernel.infra.DomainEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * PersonServiceImplementation class - contains all implemented application services for the "role-management" bounded context. All of the operations/services/methods
@@ -35,6 +35,7 @@ public class PersonServiceImplementation implements PersonService {
     private final PilotRepository pilotRepository;
     private final Validator validator;
     private final CountryClient countryClient;
+    private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public PersonId createPerson(PersonForm personForm) {
@@ -98,6 +99,51 @@ public class PersonServiceImplementation implements PersonService {
         }
         else {
             this.pilotRepository.delete((Pilot) person.get());
+        }
+
+        this.domainEventPublisher.publish(new PersonDeletedEvent(personId.getId()));
+    }
+
+    @Override
+    public void removeNationalities(String deletedCountryId, String notSpecifiedId) {
+        List<Person> people = findAll();
+        Country notSpecified = this.countryClient.findById(CountryId.of(notSpecifiedId));
+
+        for(Person person : people) {
+            if(person.getCountryId().getId().equals(deletedCountryId)) {
+                Person updatedPerson = person;
+                person.setCountryId(CountryId.of(notSpecifiedId), notSpecified);
+
+                if(person instanceof FlightAttendant) {
+                    this.flightAttendantRepository.saveAndFlush((FlightAttendant) updatedPerson);
+                }
+                else if(person instanceof Passenger) {
+                    this.passengerRepository.saveAndFlush((Passenger) updatedPerson);
+                }
+                else {
+                    this.pilotRepository.saveAndFlush((Pilot) updatedPerson);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void handleFlightArrival(Set<String> peopleIds) {
+        for(String id : peopleIds) {
+            Optional<Person> person = findById(PersonId.of(id));
+
+            if(person.isEmpty()) throw new PersonNotFoundException("Person with id " + id + " does not exist.");
+
+            Person updatedPerson = person.get();
+
+            if(updatedPerson instanceof FlightAttendant) {
+                ((FlightAttendant) updatedPerson).incrementNumFlights();
+                this.flightAttendantRepository.saveAndFlush((FlightAttendant) updatedPerson);
+            }
+            else if(updatedPerson instanceof Pilot) {
+                ((Pilot) updatedPerson).incrementYearsExperience();
+                this.pilotRepository.saveAndFlush((Pilot) updatedPerson);
+            }
         }
     }
 

@@ -5,6 +5,12 @@ import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 
 const PlaneItem = (props) => {
+    if(props.plane.planeName === "NOT_SPECIFIED") {
+        return (
+            <span></span>
+        );
+    }
+
     return (
         <StyledTableRow>
             <StyledTableCell>{props.plane.id.id}</StyledTableCell>

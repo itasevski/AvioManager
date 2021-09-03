@@ -7,6 +7,9 @@ import mk.ukim.finki.planes.domain.model.exception.PlaneNotFoundException;
 import mk.ukim.finki.planes.domain.repository.PlaneRepository;
 import mk.ukim.finki.planes.service.PlaneService;
 import mk.ukim.finki.planes.service.form.PlaneForm;
+import mk.ukim.finki.sharedkernel.domain.event.plane.PlaneDeletedEvent;
+import mk.ukim.finki.sharedkernel.domain.plane.PlaneName;
+import mk.ukim.finki.sharedkernel.infra.DomainEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,6 +30,7 @@ public class PlaneServiceImplementation implements PlaneService {
 
     private final PlaneRepository planeRepository;
     private final Validator validator;
+    private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public PlaneId createPlane(PlaneForm planeForm) {
@@ -52,9 +56,20 @@ public class PlaneServiceImplementation implements PlaneService {
     }
 
     @Override
+    public Optional<Plane> findByPlaneName(PlaneName planeName) {
+        return this.planeRepository.findByPlaneName(planeName);
+    }
+
+    @Override
     public void deleteById(PlaneId planeId) {
         if(!this.planeRepository.existsById(planeId)) throw new PlaneNotFoundException("Plane with id " + planeId + " does not exist.");
         this.planeRepository.deleteById(planeId);
+
+        Optional<Plane> plane = findByPlaneName(PlaneName.NOT_SPECIFIED);
+
+        if(plane.isEmpty()) throw new PlaneNotFoundException("Plane with name " + PlaneName.NOT_SPECIFIED.name() + " does not exist.");
+
+        this.domainEventPublisher.publish(new PlaneDeletedEvent(planeId.getId(), plane.get().getId().getId()));
     }
 
     private Plane toDomainObject(PlaneForm planeForm) {

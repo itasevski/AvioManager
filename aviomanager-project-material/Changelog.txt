@@ -6,7 +6,8 @@
 6. Removed materialized view prerequisite. There is no need to create a materialized view. All needed data is visible in the tables (frontend side).
 7. Added country and plane value objects in Flight (flight-management) BC, and country value object in Person (role-management) BC. They are needed in order to store data about the actual country or plane in the flight/person entities, not just the id.
 8. Added a new event task for handling the deletion of entities. If one entity gets deleted, an event will be published (correlated to the deleted entity) and all other
-information related to that entity will also be deleted.
+information related to that entity will be updated.
 9. Removed the event task for flight deletion after arrival. After all, all flights need to be visible and available in the table. Since there is a flight status enumeration, there is no need to delete those flights.
 All flights should be visible, whether they are in the SCHEDULED state, IN_AIR or ARRIVED state.
 9.1. Since there won't be flight removal after arrival, there won't be a need for a logging system using events. To wit, the event task for logging information is removed as well.
+10. Added new business rule - participants can't be added to the flight if the flight is already ongoing or the plane has landed.

@@ -31,6 +31,10 @@ public class FlightParticipant extends AbstractEntity<FlightParticipantId> {
         setPerson(person);
     }
 
+    /**
+     * Domain service used to set the person object related to the flight participant.
+     * @param person - a person value object representing the actual role-management aggregate.
+     */
     private void setPerson(Person person) {
         this.person = person;
     }

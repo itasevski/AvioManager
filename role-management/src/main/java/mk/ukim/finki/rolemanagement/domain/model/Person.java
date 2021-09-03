@@ -36,6 +36,20 @@ public abstract class Person extends AbstractEntity<PersonId> {
         setCountry(country);
     }
 
+    /**
+     * Domain service used to set the Person's nationality.
+     * @param countryId - the country's ID.
+     * @param country - a country value object representing the actual country aggregate.
+     */
+    public void setCountryId(@NonNull CountryId countryId, @NonNull Country country) {
+        this.countryId = countryId;
+        setCountry(country);
+    }
+
+    /**
+     * Domain service that is called in the previous domain service. It is used to set the country object.
+     * @param country - a country value object representing the actual country aggregate.
+     */
     private void setCountry(@NonNull Country country) {
         this.country = country;
     }

@@ -5,6 +5,12 @@ import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 
 const CountryItem = (props) => {
+    if(props.country.countryName === "NOT_SPECIFIED") {
+        return (
+            <span></span>
+        );
+    }
+
     return (
         <StyledTableRow>
             <StyledTableCell>{props.country.id.id}</StyledTableCell>

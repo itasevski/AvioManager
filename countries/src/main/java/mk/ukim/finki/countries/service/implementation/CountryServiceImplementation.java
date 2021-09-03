@@ -7,6 +7,9 @@ import mk.ukim.finki.countries.domain.model.exception.CountryNotFoundException;
 import mk.ukim.finki.countries.domain.repository.CountryRepository;
 import mk.ukim.finki.countries.service.CountryService;
 import mk.ukim.finki.countries.service.form.CountryForm;
+import mk.ukim.finki.sharedkernel.domain.country.CountryName;
+import mk.ukim.finki.sharedkernel.domain.event.country.CountryDeletedEvent;
+import mk.ukim.finki.sharedkernel.infra.DomainEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,6 +30,7 @@ public class CountryServiceImplementation implements CountryService {
 
     private final CountryRepository countryRepository;
     private final Validator validator;
+    private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public CountryId createCountry(CountryForm countryForm) {
@@ -52,9 +56,20 @@ public class CountryServiceImplementation implements CountryService {
     }
 
     @Override
+    public Optional<Country> findByCountryName(CountryName countryName) {
+        return this.countryRepository.findByCountryName(countryName);
+    }
+
+    @Override
     public void deleteById(CountryId countryId) {
         if(!this.countryRepository.existsById(countryId)) throw new CountryNotFoundException("Country with id " + countryId + " does not exist.");
         this.countryRepository.deleteById(countryId);
+
+        Optional<Country> notSpecified = findByCountryName(CountryName.NOT_SPECIFIED);
+
+        if(notSpecified.isEmpty()) throw new CountryNotFoundException("Country with name " + CountryName.NOT_SPECIFIED.name() + " does not exist.");
+
+        this.domainEventPublisher.publish(new CountryDeletedEvent(countryId.getId(), notSpecified.get().getId().getId()));
     }
 
     private Country toDomainObject(CountryForm countryForm) {

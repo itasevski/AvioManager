@@ -139,7 +139,17 @@ public class Flight extends AbstractEntity<FlightId> {
 
     /**
      * Domain service used to set the flight's departure country.
-     * @param departureCountry - the departure country.
+     * @param departureCountryId - the departure country's ID.
+     * @param country - a country value object representing the actual country aggregate.
+     */
+    public void setDepartureCountryId(@NonNull CountryId departureCountryId, @NonNull Country country) {
+        this.departureCountryId = departureCountryId;
+        setDepartureCountry(country);
+    }
+
+    /**
+     * Domain service that is called in the previous domain service. It is used to set the departure country object.
+     * @param departureCountry - a country value object representing the actual country aggregate.
      */
     private void setDepartureCountry(@NonNull Country departureCountry) {
         this.departureCountry = departureCountry;
@@ -147,7 +157,17 @@ public class Flight extends AbstractEntity<FlightId> {
 
     /**
      * Domain service used to set the flight's destination country.
-     * @param destinationCountry - the destination country.
+     * @param destinationCountryId - the destination country's ID.
+     * @param country - a country value object representing the actual country aggregate.
+     */
+    public void setDestinationCountryId(@NonNull CountryId destinationCountryId, @NonNull Country country) {
+        this.destinationCountryId = destinationCountryId;
+        setDestinationCountry(country);
+    }
+
+    /**
+     * Domain service that is called in the previous domain service. It is used to set the destination country object.
+     * @param destinationCountry - a country value object representing the actual country aggregate.
      */
     private void setDestinationCountry(@NonNull Country destinationCountry) {
         this.destinationCountry = destinationCountry;
@@ -155,7 +175,17 @@ public class Flight extends AbstractEntity<FlightId> {
 
     /**
      * Domain service used to set the plane used in the flight.
-     * @param plane - the plane.
+     * @param planeId - the plane's ID.
+     * @param plane - a plane value object representing the actual plane aggregate.
+     */
+    public void setPlaneId(@NonNull PlaneId planeId, @NonNull Plane plane) {
+        this.planeId = planeId;
+        setPlane(plane);
+    }
+
+    /**
+     * Domain service that is called in the previous domain service. It is used to set the plane object.
+     * @param plane - a plane value object representing the actual plane aggregate.
      */
     private void setPlane(@NonNull Plane plane) {
         this.plane = plane;

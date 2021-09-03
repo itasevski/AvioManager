@@ -118,22 +118,29 @@ class App extends Component {
 
     deletePerson = (id) => {
         AviomanagerService.deletePerson(id)
-            .then((data) => {
+            .then(async (data) => {
                 this.fetchPeople();
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                this.fetchFlights();
             });
     }
 
     deletePlane = (id) => {
         AviomanagerService.deletePlane(id)
-            .then((data) => {
+            .then(async (data) => {
                 this.fetchPlanes();
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                this.fetchFlights();
             });
     }
 
     deleteCountry = (id) => {
         AviomanagerService.deleteCountry(id)
-            .then((data) => {
+            .then(async (data) => {
                 this.fetchCountries();
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                this.fetchPeople();
+                this.fetchFlights();
             });
     }
 
@@ -141,6 +148,7 @@ class App extends Component {
         AviomanagerService.updateFlight(id, flightStatus)
             .then((data) => {
                 this.fetchFlights();
+                this.fetchPeople();
             });
     }
 

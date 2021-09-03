@@ -11,6 +11,7 @@ import mk.ukim.finki.rolemanagement.domain.valueobject.Country;
 import mk.ukim.finki.rolemanagement.domain.valueobject.CountryId;
 import mk.ukim.finki.sharedkernel.domain.country.CountryName;
 import mk.ukim.finki.sharedkernel.domain.measurement.NumberOfUnits;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +22,7 @@ import java.util.Arrays;
  */
 @Component
 @AllArgsConstructor
+@Profile("dataInitializer")
 public class DataInitializer {
 
     private final FlightAttendantRepository flightAttendantRepository;
