@@ -31,7 +31,7 @@ public class DataInitializer {
     public void initializeData() {
         if(flightRepository.findAll().isEmpty() && flightParticipantRepository.findAll().isEmpty()) {
             FlightDates flightDates = new FlightDates(LocalDateTime.parse("01/09/2021 14:00", FlightManagementApplication.formatter), LocalDateTime.parse("01/09/2021 16:00", FlightManagementApplication.formatter));
-            Flight flight = new Flight(flightDates, CountryId.of("fe8e32c6-f124-4221-8660-08ac81319440"), new Country(CountryName.Macedonia), CountryId.of("60b9c970-4f10-4067-b643-eb07e77977dd"), new Country(CountryName.Italy), PlaneId.of("eb36dfb3-3b75-4435-adcf-9de21e12455e"), new Plane(PlaneName.Airbus_A220));
+            Flight flight = new Flight(flightDates, CountryId.of("fe8e32c6-f124-4221-8660-08ac81319440"), new Country(CountryName.Macedonia), CountryId.of("60b9c970-4f10-4067-b643-eb07e77977dd"), new Country(CountryName.Italy), PlaneId.of("eb36dfb3-3b75-4435-adcf-9de21e12455e"), new Plane(PlaneName.Airbus_A220, NumberOfUnits.valueOf(220)));
 
             flight.addFlightParticipant(new Person(PersonId.of("7db24cdb-bd8b-4c9a-b63a-f038d23a342b"), "Passenger", "1", CountryId.of("fe8e32c6-f124-4221-8660-08ac81319440"), null, null));
             flight.addFlightParticipant(new Person(PersonId.of("c02a48f9-d582-4eb0-862b-1e4dee3b1938"), "Pilot", "1", CountryId.of("fe8e32c6-f124-4221-8660-08ac81319440"), null, NumberOfUnits.valueOf(10)));

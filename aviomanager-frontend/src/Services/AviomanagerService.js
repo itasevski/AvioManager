@@ -48,9 +48,10 @@ const AviomanagerService = {
             "yearsExperience": yearsExperience
         });
     },
-    createPlane: (planeName) => {
+    createPlane: (planeName, numSeats) => {
         return AxiosAviomanager.post("http://localhost:9090/api/plane/create", {
-            "planeName": planeName
+            "planeName": planeName,
+            "numSeats": numSeats
         });
     },
     createCountry: (countryName) => {

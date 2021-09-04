@@ -50,7 +50,7 @@ const CreatePersonForm = (props) => {
             <form onSubmit={handleFormSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
-                        <FormLabel htmlFor="departureCountry">Name</FormLabel>
+                        <FormLabel htmlFor="name">Name</FormLabel>
                         <TextField label="Input person name..."
                                    id="name"
                                    name="name"
@@ -60,7 +60,7 @@ const CreatePersonForm = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <FormLabel htmlFor="departureCountry">Surname</FormLabel>
+                        <FormLabel htmlFor="surname">Surname</FormLabel>
                         <TextField label="Input person surname..."
                                    id="surname"
                                    name="surname"
@@ -84,7 +84,7 @@ const CreatePersonForm = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <FormLabel htmlFor="personLimit">Flights attended (for flight attendant)</FormLabel>
+                        <FormLabel htmlFor="numFlights">Flights attended (for flight attendant)</FormLabel>
                         <TextField
                             label="Input number of flights attended..."
                             id="numFlights"
@@ -96,7 +96,7 @@ const CreatePersonForm = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <FormLabel htmlFor="personLimit">Years experience (for pilot)</FormLabel>
+                        <FormLabel htmlFor="yearsExperience">Years experience (for pilot)</FormLabel>
                         <TextField
                             label="Input number of years experience..."
                             id="yearsExperience"

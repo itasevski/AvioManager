@@ -73,7 +73,7 @@ public class PlaneServiceImplementation implements PlaneService {
     }
 
     private Plane toDomainObject(PlaneForm planeForm) {
-        return new Plane(planeForm.getPlaneName());
+        return new Plane(planeForm.getPlaneName(), planeForm.getNumSeats());
     }
 
 }

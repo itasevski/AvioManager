@@ -15,6 +15,7 @@ const PlaneItem = (props) => {
         <StyledTableRow>
             <StyledTableCell>{props.plane.id.id}</StyledTableCell>
             <StyledTableCell>{props.plane.planeName}</StyledTableCell>
+            <StyledTableCell>{props.plane.numSeats.value}</StyledTableCell>
             <StyledTableCell>
                 <IconButton onClick={() => props.deletePlane(props.plane.id.id)}>
                     <Delete style={{ color: "red" }} />

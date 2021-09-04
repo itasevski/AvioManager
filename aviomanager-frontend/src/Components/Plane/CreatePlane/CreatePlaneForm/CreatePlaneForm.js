@@ -7,6 +7,8 @@ const CreatePlaneForm = (props) => {
     const history = useHistory();
 
     const [state, setState] = React.useState({
+        numSeats: "",
+
         planes: []
     });
 
@@ -17,12 +19,20 @@ const CreatePlaneForm = (props) => {
         });
     }, [props.planes]);
 
+    const handleFieldChange = (event) => {
+        setState({
+            ...state,
+            [event.target.name]: event.target.value
+        });
+    }
+
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
         const planeName = document.getElementById("planeName").value;
+        const numSeats = state.numSeats;
 
-        props.createPlane(planeName);
+        props.createPlane(planeName, numSeats);
         history.push("/planes");
     }
 
@@ -42,6 +52,18 @@ const CreatePlaneForm = (props) => {
                                                                 name="planeName"
                                                                 required
                             />}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormLabel htmlFor="numSeats">Number of seats</FormLabel>
+                        <TextField
+                            label="Input number of seats..."
+                            id="numSeats"
+                            name="numSeats"
+                            type="number"
+                            fullWidth
+                            required
+                            onChange={handleFieldChange}
                         />
                     </Grid>
                     <Grid item xs={12}>

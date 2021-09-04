@@ -6,7 +6,8 @@ import {Link} from "react-router-dom";
 const AddFlightParticipantForm = (props) => {
     const [state, setState] = React.useState({
         people: [],
-        addedFlightParticipants: []
+        addedFlightParticipants: [],
+        error: false
     });
 
     useEffect(() => {
@@ -23,14 +24,24 @@ const AddFlightParticipantForm = (props) => {
 
         const personId = person.split(" ")[0];
 
+        const addedFlightParticipants = state.addedFlightParticipants;
+
+        if(addedFlightParticipants.find(flightParticipant => flightParticipant.split(" ")[0] === personId)) {
+            setState({
+                ...state,
+                error: true
+            });
+            return;
+        }
+
         props.addFlightParticipant(props.flightId, personId);
 
-        const addedFlightParticipants = state.addedFlightParticipants;
         addedFlightParticipants.push(person + " - SUCCESSFULLY ADDED" )
 
         setState({
             ...state,
-            addedFlightParticipants: addedFlightParticipants
+            addedFlightParticipants: addedFlightParticipants,
+            error: false
         });
     }
 
@@ -79,6 +90,9 @@ const AddFlightParticipantForm = (props) => {
                 <Grid item xs={12}>
                     <Box mt={5}>
                         <Grid container>
+                            {state.error === true &&
+                            <Typography variant="body2" style={{ color: "red" }}>Invalid - participant already added.</Typography>
+                            }
                             {state.addedFlightParticipants.map((addedFlightParticipant) => {
                                 return (
                                     <Typography variant="body2">{addedFlightParticipant}</Typography>

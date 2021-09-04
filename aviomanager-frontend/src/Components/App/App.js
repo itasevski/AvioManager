@@ -166,8 +166,8 @@ class App extends Component {
             });
     }
 
-    createPlane = (planeName) => {
-        AviomanagerService.createPlane(planeName)
+    createPlane = (planeName, numSeats) => {
+        AviomanagerService.createPlane(planeName, numSeats)
             .then((data) => {
                 this.fetchPlanes();
             });

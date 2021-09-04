@@ -11,3 +11,4 @@ information related to that entity will be updated.
 All flights should be visible, whether they are in the SCHEDULED state, IN_AIR or ARRIVED state.
 9.1. Since there won't be flight removal after arrival, there won't be a need for a logging system using events. To wit, the event task for logging information is removed as well.
 10. Added new business rule - participants can't be added to the flight if the flight is already ongoing or the plane has landed.
+11. Added new business rule - participants can't be added to the flight if the number of participants in the flight exceeds the plane seat limit.

@@ -3,6 +3,7 @@ package mk.ukim.finki.planes.configuration;
 import lombok.AllArgsConstructor;
 import mk.ukim.finki.planes.domain.model.Plane;
 import mk.ukim.finki.sharedkernel.domain.country.CountryName;
+import mk.ukim.finki.sharedkernel.domain.measurement.NumberOfUnits;
 import mk.ukim.finki.sharedkernel.domain.plane.PlaneName;
 import mk.ukim.finki.planes.domain.repository.PlaneRepository;
 import org.springframework.context.annotation.Profile;
@@ -25,8 +26,20 @@ public class DataInitializer {
     @PostConstruct
     public void initializeData() {
         if(this.planeRepository.findAll().isEmpty()) {
+            int numSeats = 100;
+
             for(PlaneName planeName : PlaneName.values()) {
-                this.planeRepository.save(new Plane(planeName));
+                if(numSeats > 300) {
+                    numSeats = 100;
+                }
+
+                numSeats += 75;
+
+                if(planeName == PlaneName.NOT_SPECIFIED) {
+                    numSeats = 0;
+                }
+
+                this.planeRepository.save(new Plane(planeName, NumberOfUnits.valueOf(numSeats)));
             }
         }
     }

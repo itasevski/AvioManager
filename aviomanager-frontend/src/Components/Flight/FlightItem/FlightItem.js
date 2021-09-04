@@ -37,7 +37,7 @@ const FlightItem = (props) => {
             <StyledTableCell>{props.flight.flightDates.arrivalDate}</StyledTableCell>
             <StyledTableCell>{props.flight.departureCountry.countryName}</StyledTableCell>
             <StyledTableCell>{props.flight.destinationCountry.countryName}</StyledTableCell>
-            <StyledTableCell>{props.flight.plane.planeName}</StyledTableCell>
+            <StyledTableCell>{props.flight.plane.planeName}<br />({props.flight.plane.numSeats.value} seats)</StyledTableCell>
             <StyledTableCell>{props.flight.numParticipants.value}</StyledTableCell>
             <StyledTableCell>{props.flight.flightStatus}</StyledTableCell>
             <StyledTableCell>
@@ -51,7 +51,7 @@ const FlightItem = (props) => {
                 </Tooltip>
             </StyledTableCell>
             <StyledTableCell>
-                {props.flight.flightStatus === "SCHEDULED" ?
+                {props.flight.flightStatus === "SCHEDULED" && props.flight.numParticipants.value < props.flight.plane.numSeats.value ?
                     (
                         <Tooltip title="Add flight participants">
                             <Link to={`/flights/${props.flight.id.id}/flightParticipants/add`}>

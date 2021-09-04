@@ -17,6 +17,7 @@ const Plane = (props) => {
                                     <TableRow>
                                         <StyledTableCell>UUID</StyledTableCell>
                                         <StyledTableCell>Plane name</StyledTableCell>
+                                        <StyledTableCell>Number of seats</StyledTableCell>
                                         <StyledTableCell></StyledTableCell>
                                     </TableRow>
                                 </TableHead>
